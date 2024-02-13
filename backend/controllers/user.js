@@ -85,6 +85,7 @@ export const getUsers = async (req, res) => {
       }
     : {};
   try {
+    console.log(keyword , "this is the keyword")
     const users = await User.find(keyword).find({
       _id: { $ne: req.user._id },
     });
