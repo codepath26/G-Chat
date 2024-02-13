@@ -1,15 +1,17 @@
 import React, { useCallback, useState } from "react";
 import { useChatsContext } from "../../context/ChatProvider";
 import axios from "axios";
+import SearchUser from "../UI/SearchUser";
 
 function SidebarMenu() {
-  const { sideBar, sideBarHandler, setSelectedChat } = useChatsContext();
+  const { sideBar, setChats, sideBarHandler, chats, setSelectedChat } =
+    useChatsContext();
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
 
   const userData = JSON.parse(localStorage.getItem("userData"));
   const token = userData.token;
-  console.log(userData.token);
+  // console.log(userData.token);
 
   const submitHandler = useCallback(async () => {
     console.log("search is called");
@@ -22,7 +24,7 @@ function SidebarMenu() {
         },
       }
     );
-    console.log(response.data);
+    // console.log(response.data);
     setSearchResult(response.data);
     setSearch("");
   }, [search, token]);
@@ -37,10 +39,19 @@ function SidebarMenu() {
         },
       }
     );
-
-    console.log(response.data.users);
+    console.log(response.data, "response data");
+    console.log(chats);
+    // let d = chats.forEach((c) => {
+    // console.log(` ${c._id} `);
+    // });
+    if (!chats.find((c) => c._id === response.data._id)) {
+      console.log("inside the setting the chat");
+      setChats([response.data, ...chats]);
+    }
+    console.log("new chat created", chats);
     setSelectedChat(response.data.users);
     sideBarHandler();
+    setSearchResult([]);
   };
 
   return (
@@ -70,27 +81,8 @@ function SidebarMenu() {
       </div>
       <ul className="w-full">
         {searchResult.map((user) => {
-          return (
-            <li
-              onClick={() => getChats(user._id)}
-              className="w-full mt-2 px-3 py-2 rounded-lg flex items-center text-black hover:text-white bg-[#E8E8E8] hover:bg-[#38B2AC] mb-2 border-2"
-              key={user._id}
-            >
-              <div className="mr-2 cursor-pointer bg-black w-[1.6rem] rounded-full">
-                <img
-                  src={user.pic}
-                  alt={user.name}
-                  className="object-cover w-full h-full"
-                />
-              </div>
-              <div>
-                <h3>{user.name}</h3>
-                <p className="text-sm">
-                  <strong> Email : </strong> <span>{user.email}</span>
-                </p>
-              </div>
-            </li>
-          );
+          console.log(user._id);
+          return <SearchUser handler={getChats} user={user} />;
         })}
       </ul>
     </div>

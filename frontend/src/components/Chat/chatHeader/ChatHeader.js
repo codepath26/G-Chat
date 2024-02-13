@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useChatsContext } from "../../context/ChatProvider";
-import Profile from "../models/profileModel/Profile";
+import { useChatsContext } from "../../../context/ChatProvider";
+import Profile from "../../models/profileModel/Profile";
 
 function ChatHeader() {
   const [dropDown, setDropDown] = useState(false);

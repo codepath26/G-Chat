@@ -3,15 +3,17 @@ import React, { createContext, useContext, useState } from "react";
 const ChatContext = createContext();
 
 const ChatProvider = ({ children }) => {
-  const [selectedChat, setSelectedChat] = useState();
+  // console.log("chat provider is called");
+  const [selectedChat, setSelectedChat] = useState(false);
   const [user, setUser] = useState();
   const [notification, setNotification] = useState([]);
-  const [chats, setChats] = useState();
+  const [chats, setChats] = useState([]);
   const [sideBar, setSideBar] = useState(false);
 
   const sideBarHandler = () => {
     setSideBar(!sideBar);
   };
+  console.log(selectedChat, "selected chat");
 
   return (
     <ChatContext.Provider
