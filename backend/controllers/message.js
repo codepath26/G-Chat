@@ -1,4 +1,6 @@
-import Message from "../models/message";
+import Message from "../models/message.js";
+import User from "../models/user.js";
+import Chat from "../models/chat.js";
 
 export const allMessage = async (req, res) => {
   try {
@@ -15,24 +17,34 @@ export const allMessage = async (req, res) => {
 export const sendMessage = async (req, res) => {
   const { content, chatId } = req.body;
 
-  try {
-    let newMessage = {
-      sender: req.user_id,
-      content: content,
-      chat: chatId,
-    };
+  if (!content || !chatId) {
+    console.log("Invalid data passed into request");
+    return res.sendStatus(400);
+  }
 
+  let newMessage = {
+    sender: req.user._id,
+    content: content,
+    chat: chatId,
+  };
+
+  try {
     let message = await Message.create(newMessage);
-    message = await message.populate("sender", "name pic").execPopulate();
-    message = await message.populate("chat").execPopulate();
+
+    message = await message.populate("sender", "name pic");
+    message = await message.populate("chat");
     message = await User.populate(message, {
       path: "chat.users",
       select: "name pic email",
     });
 
-    await Chat.findByIdAndUpdate(req.body.chatId, { latestMessage: message });
+    await Chat.findByIdAndUpdate(req.body.chatId, {
+      latestMessage: message,
+    });
+
     res.status(200).json(message);
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong" });
+    console.log(error);
+    res.status(500).json({ message: "something went wrong" });
   }
 };

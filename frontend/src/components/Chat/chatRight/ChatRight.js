@@ -5,6 +5,8 @@ import UpdatedGroup from "../../models/updatedGroupChatModal/UpdatedGroup";
 
 import io from "socket.io-client";
 import axios from "axios";
+import { getSender } from "../../Config/Chatconfg";
+import ScrollableChat from "./ScrollableChat";
 
 const ENDPOINT = process.env.REACT_APP_API_URL;
 let socket, selectedChatCompare;
@@ -17,11 +19,18 @@ function ChatRight({ fetchAgain, setFetchAgain }) {
   const [socketConnected, setSocketConnected] = useState(false);
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
-  const { selectedChat, setSelectedChat, user, notification, setNotification } =
-    useChatsContext();
-  console.log(selectedChat, "this is the selected chat");
+  const {
+    selectedChat,
+    setUser,
+    setSelectedChat,
+    user,
+    notification,
+    setNotification,
+  } = useChatsContext();
+  // console.log(selectedChat, "this is the selected chat");
 
   const fetchMessage = async () => {
+    console.log("fetchemendssage is  called");
     if (!selectedChat) {
       return;
     }
@@ -49,7 +58,8 @@ function ChatRight({ fetchAgain, setFetchAgain }) {
       socket.emit("stop typing", selectedChat._id);
       try {
         setNewMessage("");
-        const { data } = axios.post(
+        // console.log("this is the selected chatid", selectedChat);
+        const { data } = await axios.post(
           `${process.env.REACT_APP_API_URL}/message`,
           {
             content: newMessage,
@@ -61,6 +71,7 @@ function ChatRight({ fetchAgain, setFetchAgain }) {
             },
           }
         );
+        // console.log(data, "message");
         socket.emit("new message", data);
         setMessages([...messages, data]);
       } catch (error) {
@@ -70,11 +81,21 @@ function ChatRight({ fetchAgain, setFetchAgain }) {
   };
 
   useEffect(() => {
-    socket = io(ENDPOINT);
-    socket.emit("setup", user);
-    socket.on("connected", () => setSocketConnected(true));
-    socket.on("typing", () => setIsTyping(true));
-    socket.on("stop typing", () => setIsTyping(false));
+    let userData = localStorage.getItem("userData");
+    userData = JSON.parse(userData);
+    // console.log(userData, "this is useeffect");
+    setUser(userData);
+
+    if (userData) {
+      // console.log("we are inside");
+      socket = io(ENDPOINT);
+      // console.log("suser", user);
+      // console.log(userData);
+      socket.emit("setup", userData);
+      socket.on("connected", () => setSocketConnected(true));
+      socket.on("typing", () => setIsTyping(true));
+      socket.on("stop typing", () => setIsTyping(false));
+    }
   }, []);
 
   useEffect(() => {
@@ -99,7 +120,8 @@ function ChatRight({ fetchAgain, setFetchAgain }) {
   });
 
   const typingHandler = (e) => {
-    setMessages(e.traget.value);
+    // console.log("typing handler is called");
+    setNewMessage(e.target.value);
 
     if (!socketConnected) return;
     if (!typing) {
@@ -118,7 +140,7 @@ function ChatRight({ fetchAgain, setFetchAgain }) {
     }, timerLength);
   };
   const backToMyChats = () => {
-    console.log(selectedChat);
+    // console.log(selectedChat);
     setSelectedChat(false);
   };
   const onCloseModel = () => {
@@ -134,51 +156,68 @@ function ChatRight({ fetchAgain, setFetchAgain }) {
           onCloseModel={onCloseModel}
         />
       )}
+
       <div
         className={`w-full flex flex-col md:w-[70%] h-full  p-2 ${
           selectedChat ? "block" : "hidden"
         } md:block `}
       >
-        <div
-          className={`  h-full relative  border border-gray-200    p-2 mb-2   rounded-lg `}
-        >
-          <div className="flex border hover:shadow-md border-gray-200 w-full min-h-[5%] items-center p-2 justify-between">
-            <div className="ps-3">
-              <i
-                onClick={backToMyChats}
-                className=" md:hidden block fa-regular fa-circle-left text-2xl"
-              ></i>
+        {selectedChat ? (
+          <div
+            className={`  h-full relative  border border-gray-200    p-2 mb-2   rounded-lg `}
+          >
+            <div className="flex border hover:shadow-md border-gray-200 w-full min-h-[5%] items-center p-2 justify-between z-0">
+              <div className="ps-3">
+                <i
+                  onClick={backToMyChats}
+                  className=" md:hidden block fa-regular fa-circle-left text-2xl"
+                ></i>
+              </div>
+              <h1>
+                {console.log("this is the message which fetched" , messages)}
+                {messages &&
+                  (!selectedChat?.isGroupChat
+                    ? getSender(user, selectedChat?.users)
+                    : selectedChat.chatName.toUpperCase())}
+              </h1>
+              <div>
+                <i
+                  onClick={() => setGroupModel(true)}
+                  className="fa-solid fa-eye"
+                ></i>
+              </div>
             </div>
-            <h1>
-              {/* {messages &&
-              (!selectedChat.isGroupChat ? (
-                <>
-                  {getSender(user, selectedChat.users)}
-                  <ProfileModal */}
-            </h1>
-            <div>
-              <i
-                onClick={() => setGroupModel(true)}
-                className="fa-solid fa-eye"
-              ></i>
+            <div className="p-3  h-[90%]">
+              <div className="w-full h-full flex flex-col overflow-y-hidden bg-gray-200 rounded-xl">
+                {loading ? (
+                  <p>Loding...</p>
+                ) : (
+                  <div className="flex p-2 flex-col overflow-y-scroll  scrollbar-none ">
+                    <ScrollableChat messages={messages} />
+                  </div>
+                )}
+              </div>
+              <div
+                className="w-full absolute bottom-0 left-0   pe-2 rounded-xl"
+                onKeyDown={sendMessage}
+              >
+                <input
+                  type="text"
+                  className="border outline-green-500 w-full p-2"
+                  placeholder="type something"
+                  onChange={typingHandler}
+                  value={newMessage}
+                />
+              </div>
             </div>
           </div>
-          <div className="p-3  h-[90%]">
-            <div className="w-full h-full bg-gray-200 rounded-xl">chat box</div>
-            <div
-              className="w-full absolute bottom-0 left-0   pe-2 rounded-xl"
-              onKeyDown={sendMessage}
-            >
-              <input
-                type="text"
-                className="border outline-green-500 w-full p-2"
-                placeholder="type something"
-                onChange={typingHandler}
-                value={newMessage}
-              />
+        ) : (
+          <div className="flex border border-red-400  justify-center items-center h-full">
+            <div className="text-3xl pb-3 ">
+              Click on a user to start chatting
             </div>
           </div>
-        </div>
+        )}
       </div>
     </>
   );

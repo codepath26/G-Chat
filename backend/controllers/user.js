@@ -21,12 +21,12 @@ export const signupHandler = async (req, res) => {
   const { name, email, password, pic } = req.body;
   try {
     const existingUser = await User.findOne({ email });
-    console.log(`this is the user ===> ${existingUser}`);
+    // console.log(`this is the user ===> ${existingUser}`);
     if (existingUser) {
       res.status(400).json({ message: "User already exists" });
     } else {
       const IncreptedPass = await bcrypt.hash(password, 10);
-      console.log(`increpted password is ==> ${IncreptedPass}`);
+      // console.log(`increpted password is ==> ${IncreptedPass}`);
       const user = await User.create({
         name,
         email,
@@ -51,13 +51,13 @@ export const loginHandler = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
-    console.log("login==>", user);
+    // console.log("login==>", user);
     if (user) {
       const metchPass = await bcrypt.compare(password, user.password);
-      console.log("password is metched", metchPass);
+      // console.log("password is metched", metchPass);
       if (metchPass) {
         const token = await generateToken(user._id, user.email);
-        console.log(token);
+        // console.log(token);
         if (token) {
           res.status(200).json({ user, token });
         } else {
@@ -85,11 +85,11 @@ export const getUsers = async (req, res) => {
       }
     : {};
   try {
-    console.log(keyword , "this is the keyword")
+    // console.log(keyword , "this is the keyword")
     const users = await User.find(keyword).find({
       _id: { $ne: req.user._id },
     });
-    console.log(users);
+    // console.log(users);
     res.status(200).json(users);
   } catch (error) {
     console.log(error);
