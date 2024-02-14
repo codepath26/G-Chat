@@ -13,7 +13,7 @@ function BackDrop({ onCloseModel }) {
 const ModelOverlay = (props) => {
   const { user } = useChatsContext();
   return (
-    <div className="absolute rounded-md shadow-lg z-50 bg-white top-[50%] left-[50%] transition-transform -translate-x-[50%] -translate-y-[50%] p-5 border rouded-xl">
+    <div className="absolute rounded-md cursor-pointer shadow-lg z-100 bg-white top-[50%] left-[50%] transition-transform -translate-x-[50%] -translate-y-[50%] p-5 border rouded-xl">
       <div className="w-full  relative flex justify-center items-center flex-col">
         <div className="w-[100px] shadow-md h-[100px] rounded-full">
           <img

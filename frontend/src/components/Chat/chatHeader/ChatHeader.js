@@ -63,7 +63,7 @@ function ChatHeader() {
               <div
                 className={`${
                   dropDown ? "" : "hidden"
-                } absolute top-10 py-2 px-4  right-0 transition-all duration-300 flex flex-col bg-white rounded-[1rem] border border-gray-100 shadow-sm w-[10em]`}
+                } absolute top-10 py-2 px-4  right-0 transition-all duration-300 flex flex-col bg-white rounded-[1rem] border z-100 border-gray-100 shadow-sm w-[10em]`}
               >
                 <div className="border-b w-full cursor-pointer hover:text-green-700 mb-1">
                   <button onClick={() => setOpenModel(true)} className="w-full">

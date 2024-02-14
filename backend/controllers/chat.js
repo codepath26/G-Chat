@@ -4,7 +4,7 @@ import User from "../models/user.js";
 export const accessChat = async (req, res) => {
   try {
     const userId = req.params.id;
-    console.log(userId);
+    // console.log(userId);
 
     let isChat = await Chat.find({
       isGroupChat: false,
@@ -59,12 +59,12 @@ export const fetchChats = async (req, res) => {
       .populate("latestMessage")
       .sort({ updatedAt: -1 })
       .then(async (results) => {
-        console.log("this is the result of the find chat", results);
+        // console.log("this is the result of the find chat", results);
         results = await User.populate(results, {
           path: "latestMessage.sender",
           select: "name pic email",
         });
-        console.log("another result", results);
+        // console.log("another result", results);
         res.status(200).send(results);
       });
   } catch (error) {
