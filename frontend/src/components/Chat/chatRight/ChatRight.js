@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useChatsContext } from "../../../context/ChatProvider";
 
 import UpdatedGroup from "../../models/updatedGroupChatModal/UpdatedGroup";
+import Lottie from "react-lottie";
 
 import io from "socket.io-client";
 import axios from "axios";
 import { getSender } from "../../Config/Chatconfg";
 import ScrollableChat from "./ScrollableChat";
+import animationData from "../../../nimation/Typing.json";
 
 const ENDPOINT = process.env.REACT_APP_API_URL;
 let socket, selectedChatCompare;
@@ -28,6 +30,15 @@ function ChatRight({ fetchAgain, setFetchAgain }) {
     setNotification,
   } = useChatsContext();
   // console.log(selectedChat, "this is the selected chat");
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
 
   const fetchMessage = async () => {
     console.log("fetchemendssage is  called");
@@ -104,6 +115,7 @@ function ChatRight({ fetchAgain, setFetchAgain }) {
   }, [selectedChat]);
 
   useEffect(() => {
+    console.log("notification is called");
     socket.on("message recieved", (newMessageRecieved) => {
       if (
         !selectedChatCompare ||
@@ -166,7 +178,7 @@ function ChatRight({ fetchAgain, setFetchAgain }) {
           <div
             className={`  h-full relative  border border-gray-200    p-2 mb-2   rounded-lg `}
           >
-            <div className="flex border hover:shadow-md border-gray-200 w-full min-h-[5%] items-center p-2 justify-between z-0">
+            <div className="flex border  border-gray-200 w-full min-h-[5%] items-center p-2 justify-between z-0">
               <div className="ps-3">
                 <i
                   onClick={backToMyChats}
@@ -174,7 +186,7 @@ function ChatRight({ fetchAgain, setFetchAgain }) {
                 ></i>
               </div>
               <h1>
-                {console.log("this is the message which fetched" , messages)}
+                {console.log("this is the message which fetched", messages)}
                 {messages &&
                   (!selectedChat?.isGroupChat
                     ? getSender(user, selectedChat?.users)
@@ -183,7 +195,7 @@ function ChatRight({ fetchAgain, setFetchAgain }) {
               <div>
                 <i
                   onClick={() => setGroupModel(true)}
-                  className="fa-solid fa-eye"
+                  className="fa-solid cursor-pointer fa-eye"
                 ></i>
               </div>
             </div>
@@ -192,7 +204,7 @@ function ChatRight({ fetchAgain, setFetchAgain }) {
                 {loading ? (
                   <p>Loding...</p>
                 ) : (
-                  <div className="flex p-2 flex-col overflow-y-scroll  scrollbar-none ">
+                  <div className="flex p-2 flex-col overflow-y-scroll h-full w-full  scrollbar-none ">
                     <ScrollableChat messages={messages} />
                   </div>
                 )}
@@ -201,6 +213,18 @@ function ChatRight({ fetchAgain, setFetchAgain }) {
                 className="w-full absolute bottom-0 left-0   pe-2 rounded-xl"
                 onKeyDown={sendMessage}
               >
+                {" "}
+                {istyping ? (
+                  <div>
+                    <Lottie
+                      options={defaultOptions}
+                      width={70}
+                      style={{ marginBottom: 15, marginLeft: 0 }}
+                    />
+                  </div>
+                ) : (
+                  <></>
+                )}
                 <input
                   type="text"
                   className="border outline-green-500 w-full p-2"
