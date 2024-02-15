@@ -3,8 +3,6 @@ import ScrollableFeed from "react-scrollable-feed";
 import {
   isSameSender,
   isLastMessage,
-  isSameSenderMargin,
-  isSameUser,
 } from "../../Config/Chatconfg";
 import { useChatsContext } from "../../../context/ChatProvider";
 

@@ -171,6 +171,7 @@ const ModelOverlay = ({
         <button
           className=" h-full bg-green-500 font-bold text-white hover:text-black rounded-md  px-2 py-1"
           onClick={handleRename}
+          isLoading={renameloading}
         >
           Update
         </button>
