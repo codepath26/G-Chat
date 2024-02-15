@@ -12,7 +12,7 @@ function ScrollableChat({ messages }) {
   const { user } = useChatsContext();
   // console.log("this is the user bro", user);
   return (
-    <ScrollableFeed>
+    <ScrollableFeed className="w-full h-full">
       {messages &&
         messages.map((m, i) => {
           console.log(m.sender.name === user.name, "CHECKII");

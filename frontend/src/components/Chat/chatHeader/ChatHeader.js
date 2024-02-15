@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import { useChatsContext } from "../../../context/ChatProvider";
 import Profile from "../../models/profileModel/Profile";
+import Notification from "./notification/Notification";
+import NotificationBadge from "react-notification-badge";
+import { Effect } from "react-notification-badge";
 
 function ChatHeader() {
   const [dropDown, setDropDown] = useState(false);
-  const { user } = useChatsContext();
+  const { user, sideBarHandler, notification } = useChatsContext();
   const [OpenModel, setOpenModel] = useState(false);
-  const { sideBarHandler } = useChatsContext();
+  const [showNotification, setShowNotification] = useState(false);
+
   // console.log(user);
   // console.log(user);
 
@@ -27,8 +31,14 @@ function ChatHeader() {
     console.log("sidebar called");
     sideBarHandler(true);
   };
+  const notificationHandler = () => {
+    setShowNotification(true);
+    setTimeout(() => {
+      setShowNotification(false);
+    }, 5000);
+  };
   return (
-    <header className="sticky top-0 w-full p-1 border-b shadow-md">
+    <header className="sticky top-0 w-full z-10 p-1 border-b shadow-md">
       <div className="flex sm:flex-row flex-col flex-wrap justify-center   items-center">
         <div className="sm:w-[30%] w-full text-center  sm:text-start mb-3 md:mb-0">
           <button
@@ -44,12 +54,29 @@ function ChatHeader() {
         </div>
         <div className="sm:w-[30%] w-full  flex sm:justify-end justify-center mt-4 sm:mt-0">
           <div className="flex gap-3  shadow-sm hover:shadow-lg p-1 items-center">
-            <div className="me-2">
-              <i className="fa-solid fa-bell hover:show"></i>
+            <div className="me-2 relative">
+              <NotificationBadge
+                count={notification.length}
+                effect={Effect.SCALE}
+              />
+              <i
+                onClick={notificationHandler}
+                className="fa-solid cursor-pointer fa-bell hover:show"
+              >
+                {" "}
+                {console.log(
+                  "this is the notification length ,",
+                  notification.length
+                )}
+              </i>
+              {showNotification && <Notification notification={notification} />}
             </div>
 
             <div className="relative flex items-center gap-1">
-              <div className="w-[30px] rounded-full h-[30px] p-0 ">
+              <div
+                onClick={dropDownHandler}
+                className="w-[30px] cursor-pointer rounded-full h-[30px] p-0 "
+              >
                 <img
                   src={user?.pic}
                   alt="user"
@@ -63,7 +90,7 @@ function ChatHeader() {
               <div
                 className={`${
                   dropDown ? "" : "hidden"
-                } absolute top-10 py-2 px-4  right-0 transition-all duration-300 flex flex-col bg-white rounded-[1rem] border z-100 border-gray-100 shadow-sm w-[10em]`}
+                } absolute top-10 py-2 px-4  right-0 transition-all duration-300 flex flex-col bg-white rounded-[1rem] border z-[100px] border-gray-100 shadow-sm w-[10em]`}
               >
                 <div className="border-b w-full cursor-pointer hover:text-green-700 mb-1">
                   <button onClick={() => setOpenModel(true)} className="w-full">

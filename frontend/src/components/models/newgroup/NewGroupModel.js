@@ -8,7 +8,7 @@ import UserBadgeItem from "../../UI/UserBadgeItem";
 function BackDrop({ onCloseModel }) {
   return (
     <div
-      className="h-screen w-screen bg-black opacity-50 fixed  z-10"
+      className="h-screen w-screen bg-black opacity-50 fixed  z-40"
       onClick={onCloseModel}
     />
   );
