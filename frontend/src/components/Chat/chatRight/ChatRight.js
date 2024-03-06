@@ -29,7 +29,7 @@ function ChatRight({ fetchAgain, setFetchAgain }) {
     notification,
     setNotification,
   } = useChatsContext();
-  // console.log(selectedChat, "this is the selected chat");
+  console.log(selectedChat, "this is the selected chat");
 
   const defaultOptions = {
     loop: true,
@@ -41,7 +41,7 @@ function ChatRight({ fetchAgain, setFetchAgain }) {
   };
 
   const fetchMessage = async () => {
-    console.log("fetchemendssage is  called");
+    // console.log("fetchemendssage is  called");
     if (!selectedChat) {
       return;
     }
@@ -115,7 +115,7 @@ function ChatRight({ fetchAgain, setFetchAgain }) {
   }, [selectedChat]);
 
   useEffect(() => {
-    console.log("notification is called");
+    // console.log("notification is called");
     socket.on("message recieved", (newMessageRecieved) => {
       if (
         !selectedChatCompare ||
@@ -153,7 +153,7 @@ function ChatRight({ fetchAgain, setFetchAgain }) {
   };
   const backToMyChats = () => {
     // console.log(selectedChat);
-    setSelectedChat(false);
+    setSelectedChat("");
   };
   const onCloseModel = () => {
     setGroupModel(false);
@@ -176,7 +176,7 @@ function ChatRight({ fetchAgain, setFetchAgain }) {
       >
         {selectedChat ? (
           <div
-            className={`  h-full relative  border border-gray-200    p-2 mb-2   rounded-lg `}
+            className={`  h-full relative   border border-green-200    p-2 mb-2   rounded-lg `}
           >
             <div className="flex border  border-gray-200 w-full min-h-[5%] items-center p-2 justify-between z-0">
               <div className="ps-3">
@@ -186,7 +186,7 @@ function ChatRight({ fetchAgain, setFetchAgain }) {
                 ></i>
               </div>
               <h1>
-                {console.log("this is the message which fetched", messages)}
+                {/* {console.log("this is the message which fetched", messages)} */}
                 {messages &&
                   (!selectedChat?.isGroupChat
                     ? getSender(user, selectedChat?.users)
@@ -200,7 +200,7 @@ function ChatRight({ fetchAgain, setFetchAgain }) {
               </div>
             </div>
             <div className="p-3  h-[90%]">
-              <div className="w-full h-full flex flex-col overflow-y-hidden bg-gray-200 rounded-xl">
+              <div className="w-full h-full flex flex-col overflow-y-hidden bg-gray-200 pb-5 rounded-xl">
                 {loading ? (
                   <p>Loding...</p>
                 ) : (

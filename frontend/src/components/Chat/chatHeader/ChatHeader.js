@@ -18,7 +18,7 @@ function ChatHeader() {
     setOpenModel(false);
   };
   const logoutHandler = () => {
-    console.log("logout handler called");
+    // console.log("logout handler called");
   };
   const dropDownHandler = () => {
     setDropDown(!dropDown);
@@ -28,7 +28,7 @@ function ChatHeader() {
   };
 
   const sidebarHandler = () => {
-    console.log("sidebar called");
+    // console.log("sidebar called");
     sideBarHandler(true);
   };
   const notificationHandler = () => {
@@ -64,10 +64,10 @@ function ChatHeader() {
                 className="fa-solid cursor-pointer fa-bell hover:show"
               >
                 {" "}
-                {console.log(
+                {/* {console.log(
                   "this is the notification length ,",
                   notification.length
-                )}
+                )} */}
               </i>
               {showNotification && <Notification notification={notification} />}
             </div>
