@@ -126,16 +126,16 @@ function HomeRight({ FormType, goToMessage, goto }) {
 
   return (
     <>
-      <div className="md:w-1/2 bg-[url('assets/bg.jpg')] bg-cover bg-center   w-full p-2">
+      <div className="md:w-full h-screen bg-[url('assets/bg.jpg')] bg-cover bg-center  w-full p-2">
         <div className="py-2  w-full h-full">
-          <h1 className="text-center text-white font-light text-3xl">
-            {FormType}
+          <h1 className="text-center  text-green-800 font-bold  text-3xl">
+            {FormType} Page
           </h1>
-          <p className="bg-red-600 text-center my-2 text-white rounded-lg ">
+          <p className="bg-red-600 text-center  my-2 text-white rounded-lg ">
             {alter1}
           </p>
           <div className=" h-full flex flex-col  mt-10 items-center ">
-            <form className="flex w-[90%] flex-col ">
+            <form className="flex md:w-[50%] w-[90%] flex-col  ">
               {FormType === "Signup" && (
                 <div className="w-full  border border-black bg-none mb-5 rounded-md">
                   <input
@@ -227,9 +227,9 @@ function HomeRight({ FormType, goToMessage, goto }) {
                 )}
               </div>
             </form>
-            <div className="text-green-500 mt-10 hover:text-white text-lg  font-bold transition-all duration-300">
+            <div className="text-green-500  mt-10 hover:text-white text-lg  font-bold transition-all duration-300">
               <span>
-                <Link to={goto} className="underline underline-offset-2">
+                <Link to={goto} className="underline  underline-offset-2">
                   {goToMessage}
                 </Link>
               </span>

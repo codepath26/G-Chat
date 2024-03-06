@@ -75,6 +75,7 @@ const ModelOverlay = ({
       setSelectedChat(data);
       setFetchAgain(!fetchAgain);
       setRenameLoading(false);
+      onCloseModel();
     } catch (error) {
       setRenameLoading(false);
     }
@@ -139,6 +140,7 @@ const ModelOverlay = ({
       setFetchAgain(!fetchAgain);
       fetchMessages();
       setLoading(false);
+      onclose();
     } catch (error) {
       setLoading(false);
     }

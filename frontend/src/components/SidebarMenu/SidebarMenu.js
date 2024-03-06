@@ -14,7 +14,7 @@ function SidebarMenu() {
   // console.log(userData.token);
 
   const submitHandler = useCallback(async () => {
-    console.log("search is called");
+    // console.log("search is called");
 
     const response = await axios.get(
       `${process.env.REACT_APP_API_URL}/user?search=${search}`,
@@ -24,13 +24,13 @@ function SidebarMenu() {
         },
       }
     );
-    // console.log(response.data);
+    // console.log(response.data, "thisi s the setach result");
     setSearchResult(response.data);
     setSearch("");
   }, [search, token]);
 
   const getChats = async (userId) => {
-    console.log(userId, "userid");
+    // console.log(userId, "userid");
     const response = await axios.get(
       `${process.env.REACT_APP_API_URL}/chat/${userId}`,
       {
@@ -45,11 +45,11 @@ function SidebarMenu() {
     // console.log(` ${c._id} `);
     // });
     if (!chats.find((c) => c._id === response.data._id)) {
-      console.log("inside the setting the chat");
+      // console.log("inside the setting the chat");
       setChats([response.data, ...chats]);
     }
-    console.log("new chat created", chats);
-    setSelectedChat(response.data.users);
+    // console.log("new chat created", chats);
+    setSelectedChat(response.data);
     sideBarHandler();
     setSearchResult([]);
   };
@@ -81,8 +81,8 @@ function SidebarMenu() {
       </div>
       <ul className="w-full">
         {searchResult.map((user) => {
-          console.log(user._id);
-          return <SearchUser handler={getChats} user={user} />;
+          // console.log(user._id);
+          return <SearchUser key={user._id} handler={getChats} user={user} />;
         })}
       </ul>
     </div>
