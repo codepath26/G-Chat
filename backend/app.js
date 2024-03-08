@@ -5,10 +5,12 @@ import userRoutes from "./routes/user.js";
 import chatRoutes from "./routes/chat.js";
 import messageRoutes from "./routes/message.js";
 import { Server } from "socket.io";
+import helmet from "helmet";
 import cors from "cors";
 const PORT = process.env.PORT || 5000;
 const app = express();
 // app.use(express.urlencoded({}));
+app.use(helmet);
 app.use(cors());
 app.use(express.json());
 config();
@@ -32,7 +34,7 @@ const connection = async () => {
     io.on("connection", (socket) => {
       console.log("connected to socket.io");
       socket.on("setup", (userData) => {
-        console.log(userData , 'from fronted side this userdeat');
+        console.log(userData, "from fronted side this userdeat");
         socket.join(userData._id);
         socket.emit("connected");
       });

@@ -78,7 +78,7 @@ function ChatRight({ fetchAgain, setFetchAgain }) {
           },
           {
             headers: {
-              authentication: user.token,
+              Authorization: user.token,
             },
           }
         );
