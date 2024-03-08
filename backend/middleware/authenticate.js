@@ -6,8 +6,8 @@ import User from "../models/user.js";
 const authenticateUser = async (req, res, next) => {
   try {
     console.log("startted");
-    //  console.log(req.headers)
-    const token = req.headers["authentication"];
+    console.log(req.headers);
+    const token = req.headers["authorization"];
     const secretkey = process.env.SECERET_KEY;
     // console.log(token)
 
