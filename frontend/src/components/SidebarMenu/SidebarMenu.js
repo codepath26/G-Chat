@@ -20,7 +20,7 @@ function SidebarMenu() {
       `${process.env.REACT_APP_API_URL}/user?search=${search}`,
       {
         headers: {
-          authentication: token,
+          authorization: token,
         },
       }
     );
@@ -35,7 +35,7 @@ function SidebarMenu() {
       `${process.env.REACT_APP_API_URL}/chat/${userId}`,
       {
         headers: {
-          authentication: token,
+          authorization: token,
         },
       }
     );

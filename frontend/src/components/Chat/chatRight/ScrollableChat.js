@@ -1,11 +1,8 @@
 import React from "react";
 import ScrollableFeed from "react-scrollable-feed";
-import {
-  isSameSender,
-  isLastMessage,
-} from "../../Config/Chatconfg";
+import { isSameSender, isLastMessage } from "../../Config/Chatconfg";
 import { useChatsContext } from "../../../context/ChatProvider";
-
+import moment from "moment";
 function ScrollableChat({ messages }) {
   const { user } = useChatsContext();
   // console.log("this is the user bro", user);
@@ -13,7 +10,7 @@ function ScrollableChat({ messages }) {
     <ScrollableFeed className="w-full h-full">
       {messages &&
         messages.map((m, i) => {
-          console.log(m.sender.name === user.name, "CHECKII");
+          // console.log(m.sender.name === user.name, "CHECKII");
 
           return (
             <div
@@ -38,7 +35,12 @@ function ScrollableChat({ messages }) {
                   </div>
                 )}
 
-                <span>{m.content}</span>
+                <span className="relative pr-4 pb-2 min-w-12">
+                  {m.content}
+                  <span className="absolute right-0 -bottom-1 text-[10px]">
+                    {moment(m.createdAt).format("HH:mm A")}
+                  </span>
+                </span>
               </span>
             </div>
           );
