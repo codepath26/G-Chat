@@ -23,7 +23,7 @@ function ChatLeft({ fetchAgain }) {
     try {
       const config = {
         headers: {
-          authentication: userData.token,
+          authorization: userData.token,
         },
       };
       const response = await axios.get(

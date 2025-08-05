@@ -33,7 +33,7 @@ const ModelOverlay = (props) => {
         `${process.env.REACT_APP_API_URL}/user?search=${search}`,
         {
           headers: {
-            authentication: user.token,
+            authorization: user.token,
           },
         }
       );
@@ -75,7 +75,7 @@ const ModelOverlay = (props) => {
         },
         {
           headers: {
-            authentication: user.token,
+            authorization: user.token,
           },
         }
       );

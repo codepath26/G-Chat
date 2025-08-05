@@ -29,7 +29,7 @@ function ChatRight({ fetchAgain, setFetchAgain }) {
     notification,
     setNotification,
   } = useChatsContext();
-  console.log(selectedChat, "this is the selected chat");
+  // console.log(selectedChat, "this is the selected chat");
 
   const defaultOptions = {
     loop: true,
@@ -51,10 +51,11 @@ function ChatRight({ fetchAgain, setFetchAgain }) {
         `${process.env.REACT_APP_API_URL}/message/${selectedChat._id}`,
         {
           headers: {
-            authentication: user.token,
+            authorization: user.token,
           },
         }
       );
+      // console.log(data, "this is the chat");
       setMessages(data);
       setLoading(false);
 
@@ -82,7 +83,7 @@ function ChatRight({ fetchAgain, setFetchAgain }) {
             },
           }
         );
-        // console.log(data, "message");
+        console.log(data, "message");
         socket.emit("new message", data);
         setMessages([...messages, data]);
       } catch (error) {
@@ -168,9 +169,9 @@ function ChatRight({ fetchAgain, setFetchAgain }) {
           onCloseModel={onCloseModel}
         />
       )}
-
+      {/* adding the value from the code from  the  word to word this gettin the value from the word this not copy from other word which are */}
       <div
-        className={`w-full flex flex-col md:w-[70%] h-full  p-2 ${
+        className={`w-full flex flex-col  md:w-[70%] h-full  p-2 ${
           selectedChat ? "block" : "hidden"
         } md:block `}
       >

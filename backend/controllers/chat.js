@@ -10,7 +10,7 @@ export const accessChat = async (req, res) => {
       isGroupChat: false,
       $and: [
         { users: { $elemMatch: { $eq: req.user._id } } },
-        { user: { $elemMatch: { $eq: userId } } },
+        { users: { $elemMatch: { $eq: userId } } },
       ],
     })
       .populate("users", "-password")

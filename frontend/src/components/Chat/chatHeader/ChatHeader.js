@@ -49,7 +49,7 @@ function ChatHeader() {
             Search User
           </button>
         </div>
-        <div className="sm:w-[30%] w-full   font-bold  text-lg text-green-600 text-center">
+        <div className="sm:w-[30%] w-full font-bold  text-lg text-green-600 text-center">
           <h1>Welcome To G-Chat</h1>
         </div>
         <div className="sm:w-[30%] w-full  flex sm:justify-end justify-center mt-4 sm:mt-0">

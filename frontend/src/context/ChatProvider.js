@@ -3,7 +3,6 @@ import React, { createContext, useContext, useState } from "react";
 const ChatContext = createContext();
 
 const ChatProvider = ({ children }) => {
-  // console.log("chat provider is called");
   let userData = localStorage.getItem("userData");
   userData = JSON.parse(userData);
 
